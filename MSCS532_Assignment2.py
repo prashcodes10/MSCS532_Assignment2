@@ -85,3 +85,26 @@ for algorithm in results:
         for idx, size in enumerate(input_sizes):
             duration, memory_used = results[algorithm][variant][idx]
             print(f"  Size: {size}, Time: {duration:.4f}s, Memory: {memory_used:.2f}KB")
+
+# Function to plot time or memory usage
+
+def plot_results(metric_index, y_label, chart_title_suffix):
+    for algorithm in results:
+        plt.figure(figsize=(10, 6))
+        for variant in results[algorithm]:
+            metric_values = [results[algorithm][variant][i][metric_index] for i in range(len(input_sizes))]
+            plt.plot(input_sizes, metric_values, marker='o', label=variant)
+        plt.title(f'{algorithm} - {chart_title_suffix}')
+        plt.xlabel('Input Size (n)')
+        plt.ylabel(y_label)
+        plt.legend()
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+# Plotting time comparison
+
+plot_results(metric_index=0, y_label='Time (seconds)', chart_title_suffix='Execution Time')
+
+# Plotting memory usage comparison
+plot_results(metric_index=1, y_label='Memory Usage (KB)', chart_title_suffix='Memory Usage')
